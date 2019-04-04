@@ -328,6 +328,15 @@ abstract_plugin& application::get_plugin(const string& name)const {
    return *ptr;
 }
 
+void application::set_chain_provider(chain_provider* provider) {provider_ = provider;}
+
+chain_provider* application::get_chain_provider() const {
+    if(!provider_)
+       BOOST_THROW_EXCEPTION(std::runtime_error("Chain provider is not set"));
+
+    return provider_;
+}
+
 bfs::path application::data_dir() const {
    return my->_data_dir;
 }
