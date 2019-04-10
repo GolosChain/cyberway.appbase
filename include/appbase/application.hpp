@@ -10,6 +10,7 @@ namespace appbase {
    namespace bpo = boost::program_options;
    namespace bfs = boost::filesystem;
 
+   struct chain_provider;
    class application
    {
       public:
@@ -96,6 +97,9 @@ namespace appbase {
 
          abstract_plugin* find_plugin(const string& name)const;
          abstract_plugin& get_plugin(const string& name)const;
+
+         void set_chain_provider(chain_provider* controller);
+         chain_provider* get_chain_provider() const;
 
          template<typename Plugin>
          auto& register_plugin() {
@@ -187,6 +191,7 @@ namespace appbase {
          map<string, std::unique_ptr<abstract_plugin>> plugins; ///< all registered plugins
          vector<abstract_plugin*>                  initialized_plugins; ///< stored in the order they were started running
          vector<abstract_plugin*>                  running_plugins; ///< stored in the order they were started running
+         chain_provider                            *provider_ = nullptr;
 
          map<std::type_index, erased_method_ptr>   methods;
          map<std::type_index, erased_channel_ptr>  channels;
